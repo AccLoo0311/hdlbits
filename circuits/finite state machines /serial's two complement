@@ -1,0 +1,29 @@
+module top_module (
+    input clk,
+    input areset,
+    input x,
+    output z
+); 
+    parameter a=3'b001;
+    parameter b1=3'b010;
+    parameter b2=3'b100;
+    reg[2:0]sta;
+    reg[2:0]next;
+    always @(posedge clk or posedge areset) begin
+        if (areset) begin
+            sta<=a;
+        end
+        else begin
+            sta<=next;
+        end
+    end
+    always @(*) begin
+        case(sta)
+        a:next=(x)?b1:a;
+        b1:next=(x)?b2:b1;
+        b2:next=(x)?b2:b1;
+        endcase
+    end
+    assign z = (sta==b1);
+endmodule
+
